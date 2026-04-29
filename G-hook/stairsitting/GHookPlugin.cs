@@ -10,12 +10,10 @@ public class GHookPlugin : ServerPlugin
 
     public override void onEnable()
     {
-        var listener = new GHookListener();
-        FourKit.addListener(listener);
-
-        FourKit.getCommand("ghook").setExecutor(new GHookCommand(listener));
-        FourKit.getCommand("ghook").setDescription("Turns grappling hook off or on. It's off by default");
-        FourKit.getCommand("ghook").setUsage("/ghook");
+        FourKit.addListener(new GHookListener());
+        FourKit.getCommand("ghook").setExecutor(new GHookCommand());
+        FourKit.getCommand("ghook").setDescription("Gives a grappling hook item.");
+        FourKit.getCommand("ghook").setUsage("/ghook give [player]");
     }
 
     public override void onDisable() { }

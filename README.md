@@ -2,7 +2,7 @@ This is the Grappling Hook Plugin based on snowgears grappling-Hook plugin for o
 
 -Type /ghook in chat you can use fishing rods as grappling hooks.
 
--Cast then reel to grapple in an arch towards the hook's position (even if the hook is flying. for now)
+-Cast then reel to grapple in an arch towards the hook's position when it hits or is landed on a block
 
 -the farther away the hook is from you the farther you launch to reach the spot
 

@@ -1,6 +1,6 @@
 # Grappling Hook
 
-A Grappling Hook plugin based on snowgears' grappling-Hook plugin for older Minecrafts.
+A Grappling Hook plugin based on snowgears' grappling-Hook plugin for older Minecraft.
 
 ![Grappling Hook Demo](ghook_demo.gif)
 

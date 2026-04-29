@@ -1,30 +1,51 @@
+using Minecraft.Server.FourKit;
 using Minecraft.Server.FourKit.Command;
 using Minecraft.Server.FourKit.Entity;
+using System;
+using System.Linq;
 
 public class GHookCommand : CommandExecutor
 {
-    private readonly GHookListener _listener;
-
-    public GHookCommand(GHookListener listener)
-    {
-        _listener = listener;
-    }
-
     public bool onCommand(CommandSender sender, Command command, string label, string[] args)
     {
-        if (sender is ConsoleCommandSender)
+        // /ghook give           — gives to yourself
+        // /ghook give <player>  — gives to another online player
+
+        if (args.Length == 0 || !args[0].Equals("give", StringComparison.OrdinalIgnoreCase))
         {
-            sender.sendMessage("headass.");
+            sender.sendMessage("Usage: /ghook give [player]");
             return true;
         }
 
-        Player p = (Player)sender;
-        bool isNowEnabled = _listener.toggleGrapple(p.getUniqueId());
+        Player? target = null;
 
-        if (isNowEnabled)
-            p.sendMessage("G-Hook enabled.");
+        if (args.Length >= 2)
+        {
+            string name = args[1];
+            target = FourKit.getOnlinePlayers()
+                .FirstOrDefault(p => p.getName().Equals(name, StringComparison.OrdinalIgnoreCase));
+
+            if (target == null)
+            {
+                sender.sendMessage($"Player '{name}' not found or not online.");
+                return true;
+            }
+        }
+        else if (sender is Player senderPlayer)
+        {
+            target = senderPlayer;
+        }
         else
-            p.sendMessage("G-Hook disabled.");
+        {
+            sender.sendMessage("Specify a player name when running from console.");
+            return true;
+        }
+
+        target.getInventory().addItem(GHookListener.createGrapplingHook());
+        target.sendMessage($"{ChatColor.WHITE}You received a {ChatColor.LIGHT_PURPLE}Grappling Hook{ChatColor.WHITE}!");
+
+        if (sender is Player sp && sp.getUniqueId() != target.getUniqueId())
+            sender.sendMessage($"Gave Grappling Hook to {target.getName()}.");
 
         return true;
     }

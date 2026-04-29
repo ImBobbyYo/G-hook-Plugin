@@ -1,0 +1,15 @@
+C:\Users\bobby\source\repos\stairsitting\stairsitting\bin\Debug\net10.0\stairsitting.deps.json
+C:\Users\bobby\source\repos\stairsitting\stairsitting\bin\Debug\net10.0\stairsitting.dll
+C:\Users\bobby\source\repos\stairsitting\stairsitting\bin\Debug\net10.0\stairsitting.pdb
+C:\Users\bobby\source\repos\stairsitting\stairsitting\bin\Debug\net10.0\Minecraft.Server.FourKit.dll
+C:\Users\bobby\source\repos\stairsitting\stairsitting\bin\Debug\net10.0\Minecraft.Server.FourKit.pdb
+C:\Users\bobby\source\repos\stairsitting\stairsitting\obj\Debug\net10.0\stairsitting.csproj.AssemblyReference.cache
+C:\Users\bobby\source\repos\stairsitting\stairsitting\obj\Debug\net10.0\stairsitting.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\bobby\source\repos\stairsitting\stairsitting\obj\Debug\net10.0\stairsitting.AssemblyInfoInputs.cache
+C:\Users\bobby\source\repos\stairsitting\stairsitting\obj\Debug\net10.0\stairsitting.AssemblyInfo.cs
+C:\Users\bobby\source\repos\stairsitting\stairsitting\obj\Debug\net10.0\stairsitting.csproj.CoreCompileInputs.cache
+C:\Users\bobby\source\repos\stairsitting\stairsitting\obj\Debug\net10.0\stairsit.8B37841E.Up2Date
+C:\Users\bobby\source\repos\stairsitting\stairsitting\obj\Debug\net10.0\stairsitting.dll
+C:\Users\bobby\source\repos\stairsitting\stairsitting\obj\Debug\net10.0\refint\stairsitting.dll
+C:\Users\bobby\source\repos\stairsitting\stairsitting\obj\Debug\net10.0\stairsitting.pdb
+C:\Users\bobby\source\repos\stairsitting\stairsitting\obj\Debug\net10.0\ref\stairsitting.dll

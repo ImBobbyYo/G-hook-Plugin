@@ -1,3 +1,5 @@
+# Grappling Hook
+
 This is the Grappling Hook Plugin based on snowgears grappling-Hook plugin for older minecrafts.
 
 -Type /ghook give or /ghook give (player name) to give yourself or another player one

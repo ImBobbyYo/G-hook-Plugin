@@ -2,7 +2,7 @@
 
 A Grappling Hook plugin based on snowgears' grappling-Hook plugin for older Minecrafts.
 
-![Grappling Hook Demo](assets/ghook_demo.gif
+![Grappling Hook Demo](ghook_demo.gif)
 
 - /ghook give — gives yourself a grappling hook
 - /ghook give <player> — gives another player a grappling hook

@@ -1,6 +1,6 @@
 This is the Grappling Hook Plugin based on snowgears grappling-Hook plugin for older minecrafts.
 
--Type /ghook in chat you can use fishing rods as grappling hooks.
+-Type /ghook give or /ghook give (player name) to give yourself or another player one
 
 -Cast then reel to grapple in an arch towards the hook's position when it hits or is landed on a block
 

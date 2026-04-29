@@ -3,6 +3,8 @@ using Minecraft.Server.FourKit.Event;
 using Minecraft.Server.FourKit.Event.Player;
 using Minecraft.Server.FourKit.Event.Entity;
 using Minecraft.Server.FourKit.Entity;
+using Minecraft.Server.FourKit.Inventory;
+using Minecraft.Server.FourKit.Inventory.Meta;
 using Minecraft.Server.FourKit.Util;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,8 @@ using FKAction = Minecraft.Server.FourKit.Block.Action;
 
 public class GHookListener : Listener
 {
+    public const string HOOK_NAME = "Grappling Hook";
+
     private const long FALLDMG_WINDOW = 5000;
     private const double LAUNCH = 1.5;
     private const double INERTIA = 0.92;
@@ -22,7 +26,6 @@ public class GHookListener : Listener
 
     private enum HookState { Idle, Cast }
 
-    HashSet<Guid> enabledPlayers = new();
     Dictionary<Guid, HookState> state = new();
     Dictionary<Guid, long> lastGrapple = new();
     Dictionary<Guid, List<(double x, double y, double z)>> bobberPath = new();
@@ -32,6 +35,28 @@ public class GHookListener : Listener
 
     private HookState getState(Guid uid) => state.TryGetValue(uid, out var s) ? s : HookState.Idle;
     private long now() => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+    public static bool isGrapplingHook(ItemStack? item)
+    {
+        if (item == null || item.getType() != Material.FISHING_ROD) return false;
+        if (!item.hasItemMeta()) return false;
+        var meta = item.getItemMeta();
+        return meta.hasDisplayName() && meta.getDisplayName() == HOOK_NAME;
+    }
+
+    public static ItemStack createGrapplingHook()
+    {
+        var item = new ItemStack(Material.FISHING_ROD, 1);
+        var meta = item.getItemMeta();
+        meta.setDisplayName(HOOK_NAME);
+        meta.setLore(new List<string>
+        {
+            "The hook will bring you back!",
+            "I ain't tellin you no lie!"
+        });
+        item.setItemMeta(meta);
+        return item;
+    }
 
     private void killThread(Guid uid)
     {
@@ -45,13 +70,6 @@ public class GHookListener : Listener
         bobberPath.Remove(uid);
         bobberIdx.Remove(uid);
         bobberFinalIdx.Remove(uid);
-    }
-
-    public bool toggleGrapple(Guid uid)
-    {
-        if (enabledPlayers.Remove(uid)) { resetCast(uid); return false; }
-        enabledPlayers.Add(uid);
-        return true;
     }
 
     private void startBobber(Guid uid, World world, double sx, double sy, double sz, float yawDeg, float pitchDeg)
@@ -81,7 +99,7 @@ public class GHookListener : Listener
             vy -= GRAV;
             px += vx; py += vy; pz += vz;
             vx *= INERTIA; vy *= INERTIA; vz *= INERTIA;
- 
+
             double ddx = px - sx, ddy = py - sy, ddz = pz - sz;
             if (ddx * ddx + ddy * ddy + ddz * ddz > MAX_LINE_DIST_SQ) break;
 
@@ -179,12 +197,11 @@ public class GHookListener : Listener
         try
         {
             if (e.getAction() != FKAction.RIGHT_CLICK_AIR) return;
-            if (!e.hasItem() || e.getMaterial() != Material.FISHING_ROD) return;
 
             Player p = e.getPlayer();
             Guid uid = p.getUniqueId();
 
-            if (!enabledPlayers.Contains(uid)) return;
+            if (!isGrapplingHook(e.hasItem() ? p.getItemInHand() : null)) return;
 
             if (getState(uid) == HookState.Idle)
             {
@@ -223,11 +240,9 @@ public class GHookListener : Listener
             Player p = e.getPlayer();
             Guid uid = p.getUniqueId();
 
-            if (!enabledPlayers.Contains(uid)) return;
             if (getState(uid) != HookState.Cast) return;
 
-            var item = p.getItemInHand();
-            if (item == null || item.getType() != Material.FISHING_ROD)
+            if (!isGrapplingHook(p.getItemInHand()))
             {
                 resetCast(uid);
                 return;
@@ -250,9 +265,7 @@ public class GHookListener : Listener
     [EventHandler]
     public void onDeath(PlayerDeathEvent e)
     {
-        Guid uid = ((Player)e.getEntity()).getUniqueId();
-        if (enabledPlayers.Contains(uid))
-            resetCast(uid);
+        resetCast(((Player)e.getEntity()).getUniqueId());
     }
 
     [EventHandler]
@@ -276,7 +289,6 @@ public class GHookListener : Listener
     public void onQuit(PlayerQuitEvent e)
     {
         Guid uid = e.getPlayer().getUniqueId();
-        enabledPlayers.Remove(uid);
         resetCast(uid);
         lastGrapple.Remove(uid);
     }

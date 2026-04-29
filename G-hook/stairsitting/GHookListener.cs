@@ -81,8 +81,7 @@ public class GHookListener : Listener
             vy -= GRAV;
             px += vx; py += vy; pz += vz;
             vx *= INERTIA; vy *= INERTIA; vz *= INERTIA;
-
-            // Line snap distance check 
+ 
             double ddx = px - sx, ddy = py - sy, ddz = pz - sz;
             if (ddx * ddx + ddy * ddy + ddz * ddz > MAX_LINE_DIST_SQ) break;
 
@@ -251,7 +250,6 @@ public class GHookListener : Listener
     [EventHandler]
     public void onDeath(PlayerDeathEvent e)
     {
-        // hook snaps on death
         Guid uid = ((Player)e.getEntity()).getUniqueId();
         if (enabledPlayers.Contains(uid))
             resetCast(uid);

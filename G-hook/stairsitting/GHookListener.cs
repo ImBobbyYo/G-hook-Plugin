@@ -119,8 +119,8 @@ namespace GrapplingHook
                 double prevPx = px;
                 double prevPy = py;
                 double prevPz = pz;
-                vy -= GRAV;
                 px += vx; py += vy; pz += vz;
+                vy -= GRAV;
                 vx *= INERTIA; vy *= INERTIA; vz *= INERTIA;
 
                 double ddx = px - sx, ddy = py - sy, ddz = pz - sz;
